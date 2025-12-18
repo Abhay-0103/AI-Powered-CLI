@@ -45,6 +45,13 @@ export default function Home() {
           </div>
 
           {/* User Info */}
+          <div className="space-y-3 text-center">
+            <h1 className="text-3xl font-bold text-zinc-50 truncate">Welcome, {data?.user?.name || "User"}</h1>
+            <p className="text-sm text-zinc-400">Authenticated User</p>
+          </div>
+          </div>
+
+          {/* User details Card */}
           
   );
 }
