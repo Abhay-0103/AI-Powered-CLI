@@ -28,9 +28,29 @@ export const LoginForm = () => {
 
       <Card className="border-dashed border-2">
         <CardContent>
-            
+            <div className="grid gap-6">
+              <div className="flex flex-col gap-4">
+                <Button
+                  variant={"outline"}
+                  className="w-full h-full"
+                  type="button"
+                  onClick={() => authClient.signIn.social({
+                    provider: "github",
+                    callbackURL: "http://localhost:3000"
+                  })}
+                  >
+                    <Image src={"/github.svg"} alt="Github" height={16} width={16}
+                    className="size-4 dark:invert" />
+                    Continue With GitHub
+                    </Button>
+
+              </div>
+
+            </div>
+
         </CardContent>
       </Card>
+
     </div>
   );
 };
