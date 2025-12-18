@@ -13,16 +13,16 @@ export default function Home() {
   const {data, isPending} = authClient.useSession();
   const router = useRouter();
 
-  if (isPending) {
+  if(!data?.session && !data?.user) {
+    router.push('/sign-in')
+  }
+
+    if (isPending) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
         <Spinner />
       </div>
     )
-  }
-
-  if(!data?.session && !data?.user) {
-    router.push('/sign-in')
   }
 
   return (
