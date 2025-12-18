@@ -52,6 +52,36 @@ export default function Home() {
           </div>
 
           {/* User details Card */}
-          
+          <div className="border-2 border-dashed border-zonc-700 rounded-2xl p-6 bg-zinc-900/50 backdrop-blur-sm space-y-4">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold text-zinc-700 uppercase tracking-wide">Email Address</p>
+            <p className="text-lg text-zinc-100 font-medium break-all">{data?.user?.email}</p>
+            </div>
+          </div>
+
+          {/* Sign Out Button */}
+          <Button
+            onClick={() =>
+              authClient.signOut({
+                fetchOptions: {
+                  onError: (ctx) => console.log(ctx),
+                  onSuccess: () => router.push("/sign-in"),
+                },
+              })
+            }
+            className="w-full h-11 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors"
+            >
+              Sign Out
+            </Button>
+
+            {/* Decorative divider */}
+            <div className="flex items-center gap-3">
+              <div className="flex-1 h-px border-t border-dashed border-zinc-700"></div>
+              <span className="text-xs text-zinc-600">Session Active</span>
+              <div className="flex-1 h-px border-t border-dashed border-zinc-700"></div>
+            </div>
+        </div>
+      </div>
+    </div>
   );
 }
