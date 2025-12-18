@@ -1,12 +1,36 @@
-import { LoginForm } from '@/components/login-form'
-import React from 'react'
+"use client";
+
+// gobal Import
+import { useRouter } from "next/navigation";
+import React from "react";
+
+// local Import
+import { LoginForm } from "@/components/login-form";
+import { Spinner } from "@/components/ui/spinner";
+import { authClient } from "@/lib/auth-client";
 
 const page = () => {
-  return (
-    <>
-    <LoginForm />
-    </>
-  )
-}
+  const { data, isPending } = authClient.useSession();
+  const router = useRouter();
 
-export default page
+
+  if (isPending) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
+   if (data?.session && data?.user) {
+    router.push("/");
+  }
+
+  return (
+   
+      <LoginForm />
+    
+  );
+};
+
+export default page;
