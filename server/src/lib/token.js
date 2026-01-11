@@ -1,5 +1,6 @@
 import { CONFIG_DIR, TOKEN_FILE } from "../cli/commands/auth/login.js"
 import chalk from "chalk";
+import fs from "node:fs/promises";
 
 export async function getStoredToken() {
     try {
@@ -57,7 +58,7 @@ export async function isTokenExpired() {
     }
 
     const expiresAt = new Date(token.expires_at);
-    return now = new Date();
+    const now = new Date();
 
     // Considering expired if less than 5 minutes remaining
     return expiresAt.getTime() - now.getTime() < 5 * 60 * 1000; // 5 minutes
