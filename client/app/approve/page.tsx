@@ -106,13 +106,13 @@ const DeviceApprovalPage = () => {
                 Device Authorization
               </h1>
               <p className="text-sm text-zinc-400">
-                A bew device is requesting access to your account
+                A new device is requesting access to your account
               </p>
             </div>
           </div>
 
           {/* Device Code Card */}
-          <div className="border-2 border-dashed border-zinc-700 rounded-2xl p-6 bg-ziinc-900/50 backdrop-blur-sm space-y-4">
+          <div className="border-2 border-dashed border-zinc-700 rounded-2xl p-6 bg-zinc-900/50 backdrop-blur-sm space-y-4">
             <div className="space-y-2">
               <p className="text-sm font-semibold text-zinc-500 uppercase tracking-wide">
                 Authorization Code
@@ -134,7 +134,7 @@ const DeviceApprovalPage = () => {
               <p className="text-xs font-semibold text-zinc-500 tracking-wide">
                 ACCOUNT : {data?.user?.email}
               </p>
-              <div className="bg-zinc-800/50 rounded-lg p-4 border bordder-zinc-700">
+              <div className="bg-zinc-800/50 rounded-lg p-4 border border-zinc-700">
                 <p className="text-sm text-zinc-300">
                   Only Approve this request if you initiated it. For security
                   reasons, do not share your authorization code with anyone.
@@ -147,7 +147,7 @@ const DeviceApprovalPage = () => {
           <div className="space-y-3">
             <Button
               onClick={handleApprove}
-              disabled={isProcessing.Approve}
+              disabled={isProcessing.approve}
               className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               {isProcessing.approve ? (
@@ -166,7 +166,7 @@ const DeviceApprovalPage = () => {
             <Button
               onClick={handleDeny}
               disabled={isProcessing.deny}
-              className="w-full h-11 bg-red-600 hover:bg-red-700 text-white font-semibold rounnded-lg transition-colors flex items-center justify-center gap-2"
+              className="w-full h-11 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               {isProcessing.deny ? (
                 <>
