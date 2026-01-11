@@ -25,6 +25,8 @@ const DeviceAuthorizationPage = () => {
             query:{user_code: formattedCode}
         })
         if (response.error) {
+            setError("Invalid code. Please try again.");
+        } else {
             router.push(`/approve?user_code=${formattedCode}`);
         }
     } catch (error) {
