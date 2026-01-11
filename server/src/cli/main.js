@@ -9,6 +9,8 @@ import { Command } from 'commander';
 
 // Local Imports
 import { login } from './commands/auth/login.js';
+import { logout } from './commands/auth/logout.js';
+import { whoami } from './commands/auth/whoami.js';
 
 dotenv.config();
 
@@ -34,6 +36,8 @@ async function main() {
     "🏴‍☠️  A pirate-themed AI-powered CLI inspired by One Piece — set sail, automate tasks, and conquer the Grand Line of code."
   )
   .addCommand(login)
+  .addCommand(logout)
+  .addCommand(whoami);
 
     // Default action shows help
     program.action(() => {
