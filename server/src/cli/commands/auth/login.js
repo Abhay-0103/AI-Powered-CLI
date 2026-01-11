@@ -121,7 +121,7 @@ export async function loginAction(opts) {
         );
 
         if (token) {
-            const saved = await storeToken()
+            const saved = await storeToken(token)
 
             if (!saved) {
                 console.log(
