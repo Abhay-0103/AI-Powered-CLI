@@ -1,6 +1,9 @@
-import { CONFIG_DIR, TOKEN_FILE } from "../cli/commands/auth/login.js"
+// Global imports
 import chalk from "chalk";
 import fs from "node:fs/promises";
+
+// Local imports
+import { CONFIG_DIR, TOKEN_FILE } from "../cli/commands/auth/login.js"
 
 export async function getStoredToken() {
     try {
@@ -82,4 +85,6 @@ export async function requireAuth() {
         console.log(chalk.gray("    Run: luffy-cli login\n"));
         process.exit(1);
     }
+
+    return token;
 }
