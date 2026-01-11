@@ -24,7 +24,7 @@ async function main() {
         )
     )
 
-    console.log(chalk.yellowBright("Welcome to Luffy CLI — an AI-powered pirate tool 🏴‍☠️"));
+    console.log(chalk.yellowBright("Welcome to Luffy CLI — An AI-powered pirate tool 🏴‍☠️"));
 
     const program = new Command("Luffy");
 
