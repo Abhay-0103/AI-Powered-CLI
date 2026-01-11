@@ -25,7 +25,9 @@ const URL = "http://localhost:3005";
 const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 
 // =======================
-export const CONFIG_DIR = path.join(os.homedir(), ".better-auth");
+export const CONFIG_DIR = path.join( os.homedir(),
+  "Projects",
+  "24_CLI");
 export const TOKEN_FILE = path.join(CONFIG_DIR, "token.json");
 
 
@@ -215,7 +217,7 @@ export async function loginAction(opts) {
                     chalk.yellow("\n⚠️  Warning: Could not save authentication token.")
                 );
                 console.log(
-                    chalk.yellow( "You may need to login on next use.")
+                    chalk.yellow("You may need to login on next use.")
                 );
             }
 
@@ -303,6 +305,41 @@ async function pollForToken(authClient, deviceCode, clientId, initialIntervalue)
         setTimeout(poll, pollingInterval * 1000); // Initial delay
     });
 };
+
+{/* Logout Action 
+
+    // Note : It have other file named logout.js with similar function. Please keep both as is.
+
+    export async function logoutAction() {
+        intro(chalk.bold(" 👋 Logging out of Luffy CLI"));
+    
+        const token = await getStoredToken();
+    
+        if(!token) {
+            console.log(chalk.yellow("⚠️  You are not logged in."));
+            process.exit(1);
+        }
+    
+        const shouldLogout = await confirm({
+            initialValue: false,
+        });
+    
+        if (isCancel(shouldLogout) || !shouldLogout) {
+            cancel("Logout cancelled.");
+            process.exit(0);
+        }
+    
+        const cleared = await clearStoredToken();
+    
+        if (cleared) {
+            outro(chalk.green("✅ Successfully logged out of Luffy CLI."));
+        } else {
+            console.log(chalk.red("⚠️ Could not clear token file."));
+            process.exit(1);
+        }
+    }
+
+*/}
 
 // =======================
 // CLI COMMAND SETUP
