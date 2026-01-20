@@ -1,6 +1,6 @@
 // Global Imports
 import { google } from "@ai-sdk/google";
-import { streamText } from "ai";
+import { convertToModelMessages, streamText } from "ai";
 import chalk from "chalk";
 
 // Local Imports
@@ -36,7 +36,7 @@ export class AIService {
 
             }
 
-            const result = streamText(StreamConfig);
+            const result = streamText(streamConfig);
 
             let fullResponse = "";
 
