@@ -27,14 +27,14 @@ async function main() {
         )
     )
 
-    console.log(chalk.yellowBright("Welcome to Luffy CLI — An AI-powered pirate tool 🏴‍☠️"));
+    console.log(chalk.yellowBright("Welcome to Luffy CLI — An AI-powered pirate tool ⚓"));
 
     const program = new Command("Luffy");
 
    program
   .version("1.0.0")
   .description(
-    "🏴‍☠️  A pirate-themed AI-powered CLI inspired by One Piece — set sail, automate tasks, and conquer the Grand Line of code."
+    "⚓  A pirate-themed AI-powered CLI inspired by One Piece — set sail, automate tasks, and conquer the Grand Line of code."
   )
   .addCommand(login)
   .addCommand(logout)
