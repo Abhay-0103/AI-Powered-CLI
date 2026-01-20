@@ -26,8 +26,7 @@ const CLIENT_ID = process.env.GITHUB_CLIENT_ID;
 
 // =======================
 export const CONFIG_DIR = path.join( os.homedir(),
-  "Projects",
-  "24_CLI");
+  ".better-auth");
 export const TOKEN_FILE = path.join(CONFIG_DIR, "token.json");
 
 
