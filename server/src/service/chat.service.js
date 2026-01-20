@@ -141,7 +141,7 @@ export class ChatService {
 
     parseContent(content) {
         try {
-            return
+            return JSON.parse(content);
         } catch (error) {
             return content;
         }
