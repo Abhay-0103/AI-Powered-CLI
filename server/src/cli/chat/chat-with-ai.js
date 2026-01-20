@@ -171,7 +171,7 @@ async function getAIResponse(conversationId) {
 
 async function updateConversationTitle(conversationId, userInput, messageCount) {
     if (messageCount === 1) {
-        const title = userInput.slice(0, 50) + (userInput.lenght > 50 ? "..." : "");
+        const title = userInput.slice(0, 50) + (userInput.length > 50 ? "..." : "");
         await chatService.updateTitle(conversationId, title);
     }
 }
