@@ -14,7 +14,7 @@ import prisma from '../../lib/db.js';
 
 marked.use(
     markedTerminal({
-        // 🏴‍☠️ Luffy CLI Theme - One Piece inspired colors
+        // ⚓ Luffy CLI Theme - One Piece inspired colors
         code: chalk.blue,                              // Blue like Luffy's shorts
         blockquote: chalk.yellow.italic,               // Yellow like his straw hat
         heading: chalk.red.bold,                       // Red like his vest
@@ -75,13 +75,13 @@ async function initConversation(userId, conversationId = null, mode = "chat") {
 
     // Display conversation info
     const conversationInfo = boxen(
-        `${chalk.bold("Conversation")}: ${conversation.title}\n${chalk.gray("ID: " + conversation.id)}\n${chalk.gray("Mode: " + conversation.mode)}`,
+        `${chalk.redBright.bold("Conversation")}: ${chalk.yellow(conversation.title)}\n${chalk.gray("ID: " + conversation.id)}\n${chalk.gray("Mode: " + conversation.mode)}`,
         {
             padding: 1,
             margin: { top: 1, bottom: 1 },
             borderStyle: "round",
-            borderColor: "cyan",
-            title: "🗨️ Chat Session",
+            borderColor: "yellow",
+            title: "⚓ Chat Session",
             titleAlignment: "center",
         }
     );
@@ -90,7 +90,7 @@ async function initConversation(userId, conversationId = null, mode = "chat") {
 
     // Display existing messages if any
     if (conversation.messages?.length > 0) {
-        console.log(chalk.yellow(" 📃 Previous messages:\n"));
+        console.log(chalk.yellowBright(" 📃 Previous messages:\n"));
         displayMessages(conversation.messages);
     }
 
@@ -104,20 +104,20 @@ function displayMessages(messages) {
                 padding: 1,
                 margin: { left: 2, bottom: 1 },
                 borderStyle: "round",
-                borderColor: "blue",
+                borderColor: "blueBright",
                 title: "👤 You",
                 titleAlignment: "left",
             });
             console.log(userBox);
         } else {
-            // Render mardown for assistant messages
+            // Render markdown for assistant messages
             const renderedContent = marked.parse(msg.content);
             const assistantBox = boxen(renderedContent.trim(), {
                 padding: 1,
                 margin: { left: 2, bottom: 1 },
                 borderStyle: "round",
-                borderColor: "green",
-                title: "🤖 Luffy AI Assistant",
+                borderColor: "red",
+                title: "⚓ Luffy AI",
                 titleAlignment: "left",
             });
             console.log(assistantBox);
@@ -131,8 +131,8 @@ async function saveMessage(conversationId, role, content) {
 
 async function getAIResponse(conversationId) {
     const spinner = yoctoSpinner({
-        text: "Luffy AI is Thinking....",
-        color: "cyan"
+        text: chalk.yellow("⚓ Luffy AI is Thinking...."),
+        color: "yellow"
     }).start();
 
     const dbMessages = await chatService.getMessages(conversationId)
@@ -147,9 +147,9 @@ async function getAIResponse(conversationId) {
             if (isFirstChunk) {
                 spinner.stop();
                 console.log("\n");
-                const header = chalk.green.bold("🤖 Luffy AI Assistant:\n");
+                const header = chalk.redBright.bold("⚓ Luffy AI:\n");
                 console.log(header);
-                console.log(chalk.gray("-".repeat(60)));
+                console.log(chalk.yellow("═".repeat(60)));
                 isFirstChunk = false;
             }
             fullResponse += chunk;
@@ -159,7 +159,7 @@ async function getAIResponse(conversationId) {
         console.log("\n");
         const renderedMarkdown = marked.parse(fullResponse);
         console.log(renderedMarkdown);
-        console.log(chalk.gray("-".repeat(60)));
+        console.log(chalk.yellow("═".repeat(60)));
         console.log("\n");
 
         return result.content;
@@ -178,13 +178,14 @@ async function updateConversationTitle(conversationId, userInput, messageCount) 
 
 async function chatLoop(conversation) {
     const helpBox = boxen(
-        `${chalk.gray('• Type your message and press Enter')}\n${chalk.gray('• Markdown formatting is supported in responses')}\n${chalk.gray('• Type "exit" to end the conversation')}\n${chalk.gray('• Press Ctrl+c to quit anytime')}`,
+        `${chalk.white('• Type your message and press Enter')}\n${chalk.white('• Markdown formatting is supported in responses')}\n${chalk.white('• Type "exit" to end the conversation')}\n${chalk.white('• Press Ctrl+c to quit anytime')}`,
         {
             padding: 1,
             margin: { top: 1, bottom: 1 },
             borderStyle: "round",
-            borderColor: "gray",
-            dimBorder: true,
+            borderColor: "yellow",
+            title: "⚓ Tips",
+            titleAlignment: "center",
         }
     );
 
@@ -192,8 +193,8 @@ async function chatLoop(conversation) {
 
     while (true) {
         const userInput = await text({
-            message: chalk.blue("Your message:"),
-            placeholder: "Type your message here...",
+            message: chalk.blueBright("Your message:"),
+            placeholder: "Type your message here, Captain! ⚓",
             validate(value) {
                 if (!value || value.trim().length === 0) {
                     return "Message cannot be empty.";
@@ -202,22 +203,26 @@ async function chatLoop(conversation) {
         });
 
         if (isCancel(userInput)) {
-            const exitBox = boxen(chalk.yellow("Chat session ended. Goodbye...! 👋"), {
+            const exitBox = boxen(chalk.yellowBright("See you next adventure, Captain! ⚓👋"), {
                 padding: 1,
                 margin: 1,
                 borderStyle: "round",
                 borderColor: "yellow",
+                title: "⚓ Farewell",
+                titleAlignment: "center",
             });
             console.log(exitBox);
             process.exit(0);
         }
 
         if (userInput.toLowerCase() === "exit") {
-            const exitBox = boxen(chalk.yellow("Chat session ended. Goodbye...! 👋"), {
+            const exitBox = boxen(chalk.yellowBright("See you next adventure, Captain! ⚓👋"), {
                 padding: 1,
                 margin: 1,
                 borderStyle: "round",
                 borderColor: "yellow",
+                title: "⚓ Farewell",
+                titleAlignment: "center",
             });
             console.log(exitBox);
             break;
@@ -238,25 +243,31 @@ async function chatLoop(conversation) {
 
 export async function startChat(mode = "chat", conversationId = null) {
     try {
-        intro(
-            boxen(chalk.bold.cyan("Luffy AI Chat"), {
+        console.log("\n");
+        console.log(
+            boxen(chalk.redBright.bold("⚓  Luffy AI Chat  ⚓"), {
                 padding: 1,
+                margin: { left: 2 },
                 borderStyle: "double",
-                borderColor: "cyan"
+                borderColor: "red",
+                title: chalk.yellow("⚓ One Piece"),
+                titleAlignment: "center",
             })
-        )
+        );
 
         const user = await getUserFromToken()
         const conversation = await initConversation(user.id, conversationId, mode);
         await chatLoop(conversation)
 
-        outro(chalk.green(" ✧˖° Thanks for chatting with Luffy AI!"))
+        outro(chalk.yellowBright(" ✧˖° Thanks for sailing with Luffy AI! ⚓"))
     } catch (error) {
-        const errorBox = boxen(chalk.red(`❌ ${error.message}`), {
+        const errorBox = boxen(chalk.redBright(`❌ ${error.message}`), {
             padding: 1,
             margin: 1,
             borderStyle: "round",
             borderColor: "red",
+            title: "⚠️ Error",
+            titleAlignment: "center",
         });
         console.log(errorBox);
         process.exit(1);
