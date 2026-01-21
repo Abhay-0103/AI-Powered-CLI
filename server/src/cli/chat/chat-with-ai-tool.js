@@ -77,31 +77,31 @@ async function selectTools() {
     }))
 
     const selectedTools = await multiselect({
-        message: chalk.hex('#FFD700').bold("🔧 Select tools to enable (Space to select, Enter to confirm):"),
+        message: chalk.yellow.bold("⚒ Select tools to enable (Space to select, Enter to confirm):"),
         options: toolOptions,
         required: true,
     })
 
     if (isCancel(selectedTools)) {
-        cancel(chalk.hex('#FFA500')("⚠️ Tool Selection Cancelled. Exiting..."));
+        cancel(chalk.redBright("✕ Tool Selection Cancelled. Exiting..."));
         process.exit(0);
     }
 
     enableTools(selectedTools);
     if (selectedTools.length === 0) {
-        console.log(chalk.hex('#FFA500')("⚠️ No tools selected. Proceeding without tools."));
+        console.log(chalk.redBright("✕ No tools selected. Proceeding without tools."));
     } else {
         const toolsBox = boxen(
-            chalk.hex('#00FF7F')(selectedTools.map(id => {
+            chalk.greenBright(selectedTools.map(id => {
                 const tool = availableTools.find(t => t.id === id);
                 return ` ✓ ${chalk.white(tool.name)}`;
             }).join("\n")),
             {
                 padding: 1,
-                margin: { top: 1, bottom: 1 },
-                borderStyle: "round",
+                margin: { top: 0, bottom: 1 },
+                borderStyle: "double",
                 borderColor: "green",
-                title: "⚡ Active Tools",
+                title: "⚒ Active Tools",
                 titleAlignment: "center",
             }
         );
@@ -123,16 +123,16 @@ async function initConversation(userId, conversationId = null, mode = "Tool") {
 
     const enabledToolNames = getEnabledToolNames();
     const toolsDisplay = enabledToolNames.length > 0 ?
-        `\n${chalk.hex('#FFD700')("⚡ Active Tools:")} ${chalk.hex('#00CED1')(enabledToolNames.join(", "))}` : `\n${chalk.dim("⚠️ No Tools Enabled")}`;
+        `\n${chalk.yellow("⚒ Active Tools:")} ${chalk.cyan(enabledToolNames.join(", "))}` : `\n${chalk.dim("✕ No Tools Enabled")}`;
 
     const conversationInfo = boxen(
-        `${chalk.hex('#FF6347').bold("💬 Conversation")}: ${chalk.white(conversation.title)}\n${chalk.dim("🆔 " + conversation.id)}\n${chalk.dim("⚙️ " + conversation.mode)}${toolsDisplay}`,
+        `${chalk.redBright.bold("📣 Conversation")}: ${chalk.white(conversation.title)}\n${chalk.yellow("🆔 " + conversation.id)}\n${chalk.yellow("⚙ " + conversation.mode)}${toolsDisplay}`,
         {
             padding: 1,
-            margin: { top: 1, bottom: 2 },
-            borderStyle: "round",
+            margin: { top: 0, bottom: 1 },
+            borderStyle: "double",
             borderColor: "cyan",
-            title: "🎯 Session Info",
+            title: "💠 Session Info",
             titleAlignment: "center",
         }
     );
@@ -141,7 +141,7 @@ async function initConversation(userId, conversationId = null, mode = "Tool") {
 
     // Display existing messages if any
     if (conversation.messages?.length > 0) {
-        console.log(chalk.hex('#FFD700').bold(" 📜 Previous messages:\n"));
+        console.log(chalk.yellow.bold("\n📖 Previous Messages\n"));
         displayMessages(conversation.messages);
     }
 
@@ -155,9 +155,9 @@ function displayMessages(messages) {
             const userBox = boxen(chalk.white(msg.content), {
                 padding: 1,
                 margin: { left: 2, bottom: 1 },
-                borderStyle: "round",
+                borderStyle: "double",
                 borderColor: "cyan",
-                title: "💭 You",
+                title: "💬 You",
                 titleAlignment: "left",
             });
             console.log(userBox);
@@ -167,9 +167,9 @@ function displayMessages(messages) {
             const assistantBox = boxen(renderedContent.trim(), {
                 padding: 1,
                 margin: { left: 2, bottom: 1 },
-                borderStyle: "round",
-                borderColor: "redBright",
-                title: "🏴‍☠️ Luffy AI",
+                borderStyle: "double",
+                borderColor: "red",
+                title: "🏴 Luffy AI",
                 titleAlignment: "left",
             });
             console.log(assistantBox);
@@ -203,9 +203,9 @@ async function getAIResponse(conversationId) {
                 if (isFirstChunk) {
                     spinner.stop();
                     console.log("\n");
-                    const header = chalk.green.bold(" 🏴 Luffy AI: ");
+                    const header = chalk.redBright.bold(" 🏴 Luffy AI: ");
                     console.log(header);
-                    console.log(chalk.gray("-".repeat(60)));
+                    console.log(chalk.redBright("═".repeat(60)));
                     isFirstChunk = false;
                 }
 
@@ -220,13 +220,13 @@ async function getAIResponse(conversationId) {
         if (toolCallsDetected.length > 0) {
             console.log('\n');
             const toolCallBox = boxen(
-                toolCallsDetected.map(tc => `${chalk.cyan("🔧 Tool:")} ${tc.toolName}\n${chalk.gray("Args:")} ${JSON.stringify(tc.args, null, 2)}`).join("\n\n"),
+                toolCallsDetected.map(tc => `${chalk.yellow("⚒ Tool:")} ${tc.toolName}\n${chalk.gray("Args:")} ${JSON.stringify(tc.args, null, 2)}`).join("\n\n"),
                 {
                     padding: 1,
                     margin: 1,
-                    borderStyle: "round",
+                    borderStyle: "double",
                     borderColor: "yellow",
-                    title: "🔧 Tool Calls",
+                    title: "⚒ Tool Calls",
                 }
             );
             console.log(toolCallBox);
@@ -240,9 +240,9 @@ async function getAIResponse(conversationId) {
                 {
                     padding: 1,
                     margin: 1,
-                    borderStyle: "round",
+                    borderStyle: "double",
                     borderColor: "green",
-                    title: "🛠️ Tool Results",
+                    title: "⚒ Tool Results",
                 }
             );
             console.log(toolResultsBox);
@@ -253,9 +253,9 @@ async function getAIResponse(conversationId) {
         const aiResponseBox = boxen(renderedMarkdown.trim(), {
             padding: 1,
             margin: { left: 2, top: 1, bottom: 2 },
-            borderStyle: "round",
+            borderStyle: "double",
             borderColor: "red",
-            title: "🏴‍☠️ Luffy AI",
+            title: "🏴 Luffy AI",
             titleAlignment: "left",
         });
         console.log(aiResponseBox);
@@ -278,11 +278,11 @@ async function updateConversationTitle(conversationId, userInput, messageCount) 
 async function chatLoop(conversation) {
     const enabledToolNames = getEnabledToolNames();
     const helpBox = boxen(
-        `${chalk.hex('#00CED1')('💡 Type your message and press Enter to send.')}\n${chalk.hex('#FFD700')('🔧 AI has access to:')} ${enabledToolNames.length > 0 ? chalk.hex('#00FF7F')(enabledToolNames.join(", ")) : chalk.dim("No Tools Enabled")}\n${chalk.hex('#FFA500')('⚠️ Type "exit" to end the conversation')}\n${chalk.dim('⌨️ Press Ctrl+C to quit anytime')}`,
+        `${chalk.cyan('💡 Type your message and press Enter to send.')}\n${chalk.yellow('⚒ AI has access to:')} ${enabledToolNames.length > 0 ? chalk.greenBright(enabledToolNames.join(", ")) : chalk.dim("No Tools Enabled")}\n${chalk.redBright('✕ Type "exit" to end the conversation')}\n${chalk.dim('⌨ Press Ctrl+C to quit anytime')}`,
         {
             padding: 1,
-            margin: { top: 1, bottom: 2 },
-            borderStyle: "round",
+            margin: { top: 0, bottom: 1 },
+            borderStyle: "double",
             borderColor: "cyan",
             dimBorder: false,
         }
@@ -292,20 +292,20 @@ async function chatLoop(conversation) {
 
     while (true) {
         const userInput = await text({
-            message: chalk.hex('#00CED1').bold("💬 Your message:"),
+            message: chalk.cyan.bold("💬 Your message:"),
             placeholder: "Type your message here, Captain! ⚓",
             validate(value) {
                 if (!value || value.trim().length === 0) {
-                    return "⚠️ Message cannot be empty.";
+                    return "✕ Message cannot be empty.";
                 }
             },
         });
 
         if (isCancel(userInput)) {
-            const exitBox = boxen(chalk.hex('#FFD700').bold("See you next adventure, Captain! 🏴‍☠️"), {
+            const exitBox = boxen(chalk.yellow.bold("See you next adventure, Captain! 🏴"), {
                 padding: 1,
                 margin: { top: 1, bottom: 1 },
-                borderStyle: "round",
+                borderStyle: "double",
                 borderColor: "yellow",
                 title: "🌊 Farewell",
                 titleAlignment: "center",
@@ -315,10 +315,10 @@ async function chatLoop(conversation) {
         }
 
         if (userInput.toLowerCase() === "exit") {
-            const exitBox = boxen(chalk.hex('#FFD700').bold("See you next adventure, Captain! 🏴‍☠️"), {
+            const exitBox = boxen(chalk.yellow.bold("See you next adventure, Captain! 🏴"), {
                 padding: 1,
                 margin: { top: 1, bottom: 1 },
-                borderStyle: "round",
+                borderStyle: "double",
                 borderColor: "yellow",
                 title: "🌊 Farewell",
                 titleAlignment: "center",
@@ -330,9 +330,9 @@ async function chatLoop(conversation) {
         const userBox = boxen(chalk.white(userInput), {
             padding: 1,
             margin: { left: 2, top: 1, bottom: 2 },
-            borderStyle: "round",
+            borderStyle: "double",
             borderColor: "cyan",
-            title: "💭 You",
+            title: "💬 You",
             titleAlignment: "left",
         });
         console.log(userBox);
@@ -353,13 +353,16 @@ async function chatLoop(conversation) {
 export async function startToolChat(conversationId = null) {
 
     try {
-        intro(
-            boxen(chalk.hex('#FF6347').bold("🏴‍☠️ Luffy AI - Tool Calling Mode"), {
+        console.log("\n");
+        console.log(
+            boxen(chalk.redBright.bold("🏴 Luffy AI - Tool Calling Mode"), {
                 padding: 1,
-                borderStyle: "round",
+                borderStyle: "double",
                 borderColor: "red",
+                textAlignment: "center",
             })
         );
+        console.log("\n");
 
         const user = await getUserFromToken();
 
@@ -370,15 +373,15 @@ export async function startToolChat(conversationId = null) {
 
         resetTools();
 
-        outro(chalk.hex('#00FF7F').bold("👋 Thanks for using Luffy AI Tool Chat! Goodbye!"));
+        outro(chalk.greenBright.bold("👋 Thanks for using Luffy AI Tool Chat! Goodbye!"));
 
     } catch (error) {
-        const errorBox = boxen(chalk.hex('#FF0000').bold(`❌ Error: ${error.message}`), {
+        const errorBox = boxen(chalk.redBright.bold(`✕ Error: ${error.message}`), {
             padding: 1,
             margin: { top: 1, bottom: 1 },
-            borderStyle: "round",
+            borderStyle: "double",
             borderColor: "red",
-            title: "⚠️ Error",
+            title: "✕ Error",
             titleAlignment: "center",
         });
         console.log(errorBox);
