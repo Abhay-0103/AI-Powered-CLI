@@ -29,27 +29,18 @@ export const availableTools = [
 export function getEnabledTools() {
     const tools = {};
 
-    try {
-        for (const toolConfig of availableTools) {
-            if (toolConfig.enabled) {
+    for (const toolConfig of availableTools) {
+        if (toolConfig.enabled) {
+            try {
                 tools[toolConfig.id] = toolConfig.getTool();
+            } catch (error) {
+                // Silently skip tools that fail to initialize
+                // The app will continue working with other available tools
             }
         }
-
-        // Debug Logging 
-        if (Object.keys(tools).length > 0) {
-            console.log(chalk.gray(`[DEBUG] Enabled Tools: ${Object.keys(tools).join(', ')}`));
-        } else {
-            console.log(chalk.yellow('[DEBUG] No Tools Enabled'));
-        }
-
-        return Object.keys(tools).length > 0 ? tools : undefined;
-    } catch (error) {
-        console.error(chalk.red("[ERROR] Failed to initialize tools"), error.message);
-        console.log(chalk.yellow('Make sure you have @ai-sdk/google version 2.0+ installed.'));
-        console.log(chalk.yellow('Run: npm install @ai-sdk/google@latest'));
-        return undefined;
     }
+
+    return Object.keys(tools).length > 0 ? tools : undefined;
 }
 
 
