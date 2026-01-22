@@ -1,7 +1,8 @@
 // Global Imports
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { text, isCancel, cancel, intro, outro, multiselect, select } from '@clack/prompts';
+import yoctoSpinner from 'yocto-spinner';
+import { text, isCancel, cancel, intro, outro, multiselect, select, confirm } from '@clack/prompts';
 
 // Local Imports
 import { AIService } from '../ai/google.service.js';
@@ -174,50 +175,49 @@ async function agentLoop(conversation) {
             }
         }
     }
+}
 
 
-    export async function startAgentChat(conversationId = null) {
-        try {
+export async function startAgentChat(conversationId = null) {
+    try {
+        intro(
+            boxen(
+                chalk.bold.magenta('🤖 Luffy AI - Agent Mode\n\n') +
+                chalk.gray("Authonomous Application Generator"),
+                {
+                    padding: 1,
+                    borderStyle: "double",
+                    borderColor: "magenta",
+                }
+            )
+        );
 
+        const user = await getUserFromToken();
 
-            intro(
-                boxen(
-                    chalk.bold.magenta('🤖 Luffy AI - Agent Mode\n\n') +
-                    chalk.gray("Authonomous Application Generator"),
-                    {
-                        padding: 1,
-                        borderStyle: "double",
-                        borderColor: "magenta",
-                    }
-                )
-            );
+        // Warning about File System Access
+        const shouldContinue = await confirm({
+            message: chalk.yellow("⚠️  The agent will create files and folders in the current directory. Continue?"),
+            initialValue: true,
+        });
 
-            const user = await getUserFromToken();
-
-            // Warning about File System Access
-            const shouldContinue = await confirm({
-                message: chalk.yellow("⚠️  The agent will create files and folders in the current directory. Continue?"),
-                initialValue: true,
-            });
-
-            if (isCancel(shouldContinue) || !shouldContinue) {
-                cancel(chalk.yellow("Agent mode cancelled"));
-                process.exit(0);
-            }
-
-            const conversation = await initConversation(user.id, conversationId);
-            await agentLoop(conversation);
-
-            outro(chalk.green.bold('👋 Thanks For Using Luffy AI Agent Mode !'));
-
-        } catch (error) {
-            const errorBox = boxen(chalk.red(`❌ Error: ${error.message}`), {
-                padding: 1,
-                margin: 1,
-                borderStyle: "round",
-                borderColor: "red",
-            });
-            console.log(errorBox);
-            process.exit(1);
+        if (isCancel(shouldContinue) || !shouldContinue) {
+            cancel(chalk.yellow("Agent mode cancelled"));
+            process.exit(0);
         }
+
+        const conversation = await initConversation(user.id, conversationId);
+        await agentLoop(conversation);
+
+        outro(chalk.green.bold('👋 Thanks For Using Luffy AI Agent Mode !'));
+
+    } catch (error) {
+        const errorBox = boxen(chalk.red(`❌ Error: ${error.message}`), {
+            padding: 1,
+            margin: 1,
+            borderStyle: "round",
+            borderColor: "red",
+        });
+        console.log(errorBox);
+        process.exit(1);
     }
+}
