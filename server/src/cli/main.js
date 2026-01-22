@@ -19,7 +19,7 @@ dotenv.config();
 async function main() {
     // Display Banner
     console.log(
-        chalk.redBright(
+        chalk.redBright.bold(
             figlet.textSync("Luffy CLI", {
                 font: "Standard",
                 horizontalLayout: "default",
@@ -27,7 +27,7 @@ async function main() {
         )
     )
 
-    console.log(chalk.yellowBright("Welcome to Luffy CLI — An AI-powered pirate tool ⚓"));
+    console.log(chalk.yellowBright.bold("  ✨ Set sail with Luffy CLI — Your AI-powered pirate companion! ✨\n"));
 
     const program = new Command("Luffy");
 
