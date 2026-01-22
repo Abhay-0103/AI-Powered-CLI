@@ -2,6 +2,7 @@
 import chalk from 'chalk';
 import { Command } from 'commander';
 import yoctoSpinner from 'yocto-spinner';
+import boxen from 'boxen';
 
 // Local Imports
 import { getStoredToken } from '../../../lib/token.js';
@@ -16,11 +17,25 @@ const wakeUpAction = async()=> {
     const token = await getStoredToken();
 
     if(!token?.access_token){
-        console.log(chalk.red("Not Authenticated. Please login first."));
+        console.log(boxen(
+            chalk.redBright.bold('⚓ Ahoy! You\'re not on the crew yet! ⚓') + '\n\n' +
+            chalk.white('Run ') + chalk.cyanBright.bold('luffy login') + chalk.white(' to join the crew!'),
+            {
+                padding: 1,
+                borderStyle: 'bold',
+                borderColor: 'redBright',
+                title: chalk.redBright.bold(' 🔒 Authentication Required '),
+                titleAlignment: 'center',
+                textAlignment: 'center'
+            }
+        ));
         return;
     }
 
-    const spinner = yoctoSpinner({text:"Fetching user infomation..."})
+    const spinner = yoctoSpinner({
+        text: chalk.cyanBright("⚓ Checking the ship's log..."),
+        color: 'cyan'
+    });
     spinner.start();
 
     const user = await prisma.user.findFirst({
@@ -32,7 +47,6 @@ const wakeUpAction = async()=> {
             }
         },
         select: {
-
             id:true,
             name:true,
             email:true,
@@ -43,29 +57,55 @@ const wakeUpAction = async()=> {
     spinner.stop();
 
     if(!user){
-        console.log(chalk.red("User not found. Please login again."));
+        console.log(boxen(
+            chalk.redBright.bold('⚓ Nakama not found! ⚓') + '\n\n' +
+            chalk.white('Your session has expired.') + '\n' +
+            chalk.white('Run ') + chalk.cyanBright.bold('luffy login') + chalk.white(' again!'),
+            {
+                padding: 1,
+                borderStyle: 'bold',
+                borderColor: 'redBright',
+                title: chalk.redBright.bold(' ❌ Error '),
+                titleAlignment: 'center',
+                textAlignment: 'center'
+            }
+        ));
         return;
     }
 
-    console.log(chalk.greenBright(`Welcome back, ${user.name}!\n`));
+    // Welcome banner
+    console.log(boxen(
+        chalk.yellowBright.bold(`✨ Ahoy, Captain ${user.name}! ✨`) + '\n\n' +
+        chalk.white('The Thousand Sunny is ready to sail!') + '\n' +
+        chalk.gray('Choose your adventure below...'),
+        {
+            padding: 1,
+            margin: { top: 1, bottom: 1 },
+            borderStyle: 'bold',
+            borderColor: 'yellowBright',
+            title: chalk.yellowBright.bold(' ⚓ Straw Hat Pirates ⚓ '),
+            titleAlignment: 'center',
+            textAlignment: 'center'
+        }
+    ));
 
     const choice = await select({
-        message: "Select an Option:",
+        message: chalk.yellowBright.bold("⚓ Choose your path, Captain:"),
         options: [
             {
                 value: "chat",
-                label: "chat",
-                hint: "Start a chat with AI",
+                label: chalk.cyanBright.bold("💬 Chat Mode"),
+                hint: chalk.gray("Have a conversation with your AI nakama"),
             },
             {
                 value: "tool",
-                label: "Tool Calling",
-                hint: "Chat with Tools (Google search, code execution, etc.)",
+                label: chalk.greenBright.bold("🛠️  Tool Mode"),
+                hint: chalk.gray("Use powerful tools (Search, Code Runner & more)"),
             },
             {
                 value: "agent",
-                label: "Agentic Mode",
-                hint: "Advanced AI agent",
+                label: chalk.magentaBright.bold("🤖 Agent Mode"),
+                hint: chalk.gray("Autonomous App Generator - Build entire projects!"),
             },
         ],
     })
@@ -86,5 +126,5 @@ const wakeUpAction = async()=> {
 
 
 export const wakeUp = new Command("wakeup")
-    .description("Wake up the AI and choose interaction mode")
+    .description("⚓ Wake up Luffy AI and set sail on your coding adventure!")
     .action(wakeUpAction);

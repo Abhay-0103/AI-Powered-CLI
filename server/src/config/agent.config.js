@@ -34,8 +34,8 @@ function printSystem(message) {
  * Display file tree structure
  */
 function displayFileTree(files, folderName) {
-    printSystem(chalk.cyan('\n📂 Project Structure:'));
-    printSystem(chalk.white(`${folderName}/`));
+    printSystem(chalk.yellow('\n⚓ Treasure Map (Project Structure):'));
+    printSystem(chalk.cyan(`📁 ${folderName}/`));
 
     const filesByDir = {};
     files.forEach(file => {
@@ -84,10 +84,10 @@ async function createApplicationFiles(baseDir, folderName, files) {
 
 export async function generateApplication(description, aiService, cwd = process.cwd()) {
     try {
-        printSystem(chalk.yellow('\n 🤖 Agent Mode : Generating your application...\n'));
-        printSystem(chalk.gray(`request: ${description}\n`));
+        printSystem(chalk.yellow('\n ⚓ Setting sail... Building your application! ⚓\n'));
+        printSystem(chalk.gray(`📝 Mission: ${description}\n`));
 
-        printSystem(chalk.magenta('🤖 Agent Response:\n'));
+        printSystem(chalk.cyan('🤖 Your AI Nakama is crafting the code...\n'));
 
         const { object: application } = await generateObject({
             model: aiService.model,
@@ -113,33 +113,33 @@ Provide:
 - Make it visually appealing and functional`,
         });
 
-        printSystem(chalk.green(`\n✅ Generated: ${application.folderName}\n`));
-        printSystem(chalk.gray(`Description: ${application.description}\n`));
+        printSystem(chalk.green.bold(`\n✅ Treasure Found: ${application.folderName}\n`));
+        printSystem(chalk.gray(`📜 ${application.description}\n`));
 
         if (application.files.length === 0) {
-            throw new Error("No files were generated");
+            throw new Error("No treasure was found! The AI couldn't generate any files.");
         }
 
         displayFileTree(application.files, application.folderName);
 
-        printSystem(chalk.cyan('\n📃 Creating files...\n'));
+        printSystem(chalk.cyan('\n⚓ Claiming the treasure (Creating files)...\n'));
 
         const appDir = await createApplicationFiles(cwd, application.folderName,
             application.files
         );
 
         // Display Result
-        printSystem(chalk.green.bold(`\n 🌟 Application Created Successfully !\n`));
-        printSystem(chalk.cyan(`📁 Location: ${chalk.bold(appDir)}\n`));
+        printSystem(chalk.yellow.bold(`\n 🌟 VICTORY! Application Created Successfully! 🌟\n`));
+        printSystem(chalk.cyan(`📁 Treasure Location: ${chalk.bold(appDir)}\n`));
 
         if (application.setupCommands.length > 0) {
-            printSystem(chalk.cyan('📋 Next Steps:\n'));
-            printSystem(chalk.white('```bash'));
+            printSystem(chalk.yellow('⚓ Next Steps to Set Sail:\n'));
+            printSystem(chalk.gray('```bash'));
             application.setupCommands.forEach(cmd => {
-                printSystem(chalk.white(cmd))
+                printSystem(chalk.white(`  ${cmd}`))
             });
 
-            printSystem(chalk.white("```\n"));
+            printSystem(chalk.gray("```\n"));
         }
 
         return {
@@ -151,7 +151,7 @@ Provide:
         }
 
     } catch (error) {
-        printSystem(chalk.red(`\n❌ Error Generating Application    : ${error.message}\n`));
+        printSystem(chalk.red(`\n⚓ Shipwreck! Error: ${error.message}\n`));
         if (error.stack) {
             printSystem(chalk.dim(error.stack + '\n'));
         }

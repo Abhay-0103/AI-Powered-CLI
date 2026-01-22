@@ -47,16 +47,17 @@ async function initConversation(userId, conversationId = null) {
     );
 
     const conversationInfo = boxen(
-        `${chalk.bold("Conversation")}: ${conversation.title}\n` +
-        `${chalk.gray("ID:")} ${conversation.id}\n` +
-        `${chalk.gray("Mode:")} ${chalk.magenta("Agent (Code Generator)")}\n` +
-        `${chalk.cyan("Working Directory:")} ${process.cwd()}`,
+        chalk.yellowBright.bold("⚓ Voyage Log ⚓") + '\n\n' +
+        chalk.cyanBright("Mission: ") + chalk.white(conversation.title) + '\n' +
+        chalk.gray("Log ID: ") + chalk.white(conversation.id) + '\n' +
+        chalk.gray("Mode: ") + chalk.magentaBright.bold("Agent (Straw Hat Builder)") + '\n' +
+        chalk.cyanBright("Ship's Location: ") + chalk.white(process.cwd()),
         {
             padding: 1,
             margin: { top: 1, bottom: 1 },
-            borderStyle: "round",
-            borderColor: "magenta",
-            title: "🤖 Agent Mode",
+            borderStyle: "bold",
+            borderColor: "cyanBright",
+            title: chalk.cyanBright.bold(" ⚓ Captain's Log ⚓ "),
             titleAlignment: "center",
         }
     );
@@ -72,22 +73,23 @@ async function saveMessage(conversationId, role, content) {
 
 async function agentLoop(conversation) {
     const helpBox = boxen(
-        `${chalk.cyan.bold("What can the agent do?")}\n\n` +
-        `${chalk.gray('• Generate complete applications from descriptions')}\n` +
-        `${chalk.gray('• Create all necessary files and folders')}\n` +
-        `${chalk.gray('• Include setup instructions and commands')}\n` +
-        `${chalk.gray('• Generate production-ready code')}\n\n` +
-        `${chalk.yellow.bold("Examples:")}\n` +
-        `${chalk.white('• "Build a todo app with React and Tailwind"')}\n` +
-        `${chalk.white('• "Create a REST API with Express and MongoDB"')}\n` +
-        `${chalk.white('• "Make a weather app using OpenWeatherMap API"')}\n\n` +
-        `${chalk.gray('Type "exit" to end the session')}`,
+        chalk.yellowBright.bold("⚓ What can your AI Nakama do? ⚓") + '\n\n' +
+        chalk.greenBright('✔') + ' ' + chalk.white('Generate complete applications from descriptions') + '\n' +
+        chalk.greenBright('✔') + ' ' + chalk.white('Create all necessary files and folders') + '\n' +
+        chalk.greenBright('✔') + ' ' + chalk.white('Include setup instructions and commands') + '\n' +
+        chalk.greenBright('✔') + ' ' + chalk.white('Generate production-ready code') + '\n\n' +
+        chalk.cyanBright.bold("💡 Example Adventures:") + '\n' +
+        chalk.gray('  → ') + chalk.white('"Build a todo app with React and Tailwind"') + '\n' +
+        chalk.gray('  → ') + chalk.white('"Create a REST API with Express and MongoDB"') + '\n' +
+        chalk.gray('  → ') + chalk.white('"Make a weather app using OpenWeatherMap API"') + '\n\n' +
+        chalk.gray.italic('Type "exit" to return to the ship'),
         {
             padding: 1,
             margin: { bottom: 1 },
-            borderStyle: "round",
-            borderColor: "cyan",
-            title: "💡 Agent Instructions",
+            borderStyle: "bold",
+            borderColor: "greenBright",
+            title: chalk.greenBright.bold(" ⚓ Agent Mode - Straw Hat Builder ⚓ "),
+            titleAlignment: "center"
         }
     );
 
@@ -95,8 +97,8 @@ async function agentLoop(conversation) {
 
     while (true) {
         const userInput = await text({
-            message: chalk.magenta("🤖 What would you like to build?"),
-            placeholder: "Describe your application...",
+            message: chalk.yellow("⚓ What shall we build, Captain?"),
+            placeholder: "Describe your dream application...",
             validate(value) {
                 if (!value || value.trim().length === 0) {
                     return "Description cannot be empty";
@@ -108,21 +110,21 @@ async function agentLoop(conversation) {
         });
 
         if (isCancel(userInput)) {
-            console.log(chalk.yellow("\n👋 Agent session cancelled\n"));
+            console.log(chalk.yellow("\n⚓ Anchors away! Heading back to port...\n"));
             process.exit(0);
         }
 
         if (userInput.toLowerCase() === "exit") {
-            console.log(chalk.yellow("\n👋 Agent session ended\n"));
+            console.log(chalk.yellow("\n⚓ Fair winds, Captain! Until next voyage! ⚓\n"));
             break;
         }
 
         const userBox = boxen(chalk.white(userInput), {
             padding: 1,
             margin: { top: 1, bottom: 1 },
-            borderStyle: "round",
-            borderColor: "blue",
-            title: "👤 Your Request",
+            borderStyle: "double",
+            borderColor: "cyan",
+            title: "⚓ Captain's Orders",
             titleAlignment: "left",
         });
         console.log(userBox);
@@ -147,11 +149,11 @@ async function agentLoop(conversation) {
 
                 // Ask if user wants to generate another app
                 const continuePrompt = await confirm({
-                    message: chalk.cyan("Would you like to generate another application?"),
+                    message: chalk.yellow("⚓ Ready for another adventure, Captain?"),
                     initialValue: false,
                 });
                 if (isCancel(continuePrompt) || !continuePrompt) {
-                    console.log(chalk.yellow("\n👋 Great! Check your new application.\n"));
+                    console.log(chalk.yellow("\n⚓ Excellent work! Your treasure awaits in the folder! ⚓\n"));
                     break;
                 }
 
@@ -161,12 +163,12 @@ async function agentLoop(conversation) {
             }
 
         } catch (error) {
-            console.log(chalk.red(`\n❌ Error: ${error.message}\n`));
+            console.log(chalk.red(`\n⚓ Storm ahead! ${error.message}\n`));
 
             await saveMessage(conversation.id, "assistant", `Error: ${error.message}`);
 
             const retry = await confirm({
-                message: chalk.cyan("Would you like to try again?"),
+                message: chalk.yellow("⚓ Shall we try again, Captain?"),
                 initialValue: true,
             });
 
@@ -182,12 +184,14 @@ export async function startAgentChat(conversationId = null) {
     try {
         intro(
             boxen(
-                chalk.bold.magenta('🤖 Luffy AI - Agent Mode\n\n') +
-                chalk.gray("Authonomous Application Generator"),
+                chalk.magentaBright.bold('✨ AGENT MODE ACTIVATED ✨') + '\n\n' +
+                chalk.whiteBright.bold('⚓ Straw Hat App Builder ⚓') + '\n\n' +
+                chalk.gray.italic('"I\'m gonna be the King of the Code!" - Luffy'),
                 {
                     padding: 1,
-                    borderStyle: "double",
-                    borderColor: "magenta",
+                    borderStyle: "bold",
+                    borderColor: "magentaBright",
+                    textAlignment: "center"
                 }
             )
         );
@@ -196,26 +200,26 @@ export async function startAgentChat(conversationId = null) {
 
         // Warning about File System Access
         const shouldContinue = await confirm({
-            message: chalk.yellow("⚠️  The agent will create files and folders in the current directory. Continue?"),
+            message: chalk.yellowBright("⚓ The agent will create files in your current directory. Ready to set sail?"),
             initialValue: true,
         });
 
         if (isCancel(shouldContinue) || !shouldContinue) {
-            cancel(chalk.yellow("Agent mode cancelled"));
+            cancel(chalk.yellowBright("⚓ Returning to the ship..."));
             process.exit(0);
         }
 
         const conversation = await initConversation(user.id, conversationId);
         await agentLoop(conversation);
 
-        outro(chalk.green.bold('👋 Thanks For Using Luffy AI Agent Mode !'));
+        outro(chalk.greenBright.bold('✨ Until next time, Captain! May the winds guide you! ✨'));
 
     } catch (error) {
-        const errorBox = boxen(chalk.red(`❌ Error: ${error.message}`), {
+        const errorBox = boxen(chalk.redBright.bold(`❌ Error: ${error.message}`), {
             padding: 1,
             margin: 1,
-            borderStyle: "round",
-            borderColor: "red",
+            borderStyle: "bold",
+            borderColor: "redBright",
         });
         console.log(errorBox);
         process.exit(1);
