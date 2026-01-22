@@ -2,12 +2,11 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import { generateObject } from "ai";
-import { success, z } from 'zod';
-import { th } from 'zod/v4/locales';
+import { z } from 'zod';
 
 
 const ApplicationSchema = z.object({
-    foldername: z.string().describe("Kebab-Case folder name for the application"),
+    folderName: z.string().describe("Kebab-case folder name for the application"),
     description: z.string().describe("A brief description of the application, Which was ccreated"),
     files: z.array(
         z.object({
@@ -18,7 +17,12 @@ const ApplicationSchema = z.object({
     setupCommands: z.array(
         z.string().describe("Bash commands to setup and run ( e.g: npm install, npm run dev")
     ),
-    dependencies: z.record(z.string()).optional().describe("NPM dependencies with versions")
+    dependencies: z.array(
+        z.object({
+            name: z.string().describe("Package name (e.g: react)"),
+            version: z.string().describe("Package version (e.g: ^18.2.0)")
+        })
+    ).optional().describe("NPM dependencies with versions")
 })
 
 
@@ -116,11 +120,11 @@ Provide:
             throw new Error("No files were generated");
         }
 
-        displayFileTree(application.files, application.foldername);
+        displayFileTree(application.files, application.folderName);
 
         printSystem(chalk.cyan('\n📃 Creating files...\n'));
 
-        const appDir = await createApplicationFiles(cwd, application.foldername,
+        const appDir = await createApplicationFiles(cwd, application.folderName,
             application.files
         );
 
@@ -139,7 +143,7 @@ Provide:
         }
 
         return {
-            folderName: application.foldername,
+            folderName: application.folderName,
             appDir,
             files: application.files.map(f => f.path),
             commands: application.setupCommands,
@@ -151,6 +155,6 @@ Provide:
         if (error.stack) {
             printSystem(chalk.dim(error.stack + '\n'));
         }
-        throw err;
+        throw error;
     }
 }
