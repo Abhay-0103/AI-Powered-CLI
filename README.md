@@ -1,163 +1,483 @@
-# 🏴‍☠️ Luffy CLI - AI-Powered CLI Tool
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
+  <img src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js">
+  <img src="https://img.shields.io/badge/Prisma-5.22-2D3748?style=for-the-badge&logo=prisma&logoColor=white" alt="Prisma">
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Google_AI-Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google AI">
+</p>
 
-An AI-powered command-line interface inspired by One Piece. Set sail, automate tasks, and conquer the Grand Line of code!
+<h1 align="center">⚓ Luffy CLI</h1>
+
+<p align="center">
+  <strong>An AI-Powered Command-Line Interface Inspired by One Piece</strong>
+</p>
+
+<p align="center">
+  Set sail, automate tasks, and conquer the Grand Line of code with your AI nakama!
+</p>
+
+<p align="center">
+  <a href="#-features">Features</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#-usage">Usage</a> •
+  <a href="#-ai-modes">AI Modes</a> •
+  <a href="#-tech-stack">Tech Stack</a> •
+  <a href="#-contributing">Contributing</a>
+</p>
+
+---
+
+## ✨ Features
+
+### 🔐 **Secure Authentication**
+- OAuth 2.0 Device Flow for secure CLI authentication
+- GitHub OAuth integration
+- Persistent session management
+- Secure token storage
+
+### 🤖 **AI-Powered Modes**
+
+| Mode | Description |
+|------|-------------|
+| **💬 Chat Mode** | Have natural conversations with your AI nakama |
+| **🛠️ Tool Mode** | Use powerful tools like Google Search, Code Execution, URL fetching |
+| **🤖 Agent Mode** | Autonomous application generator - build entire projects from descriptions! |
+
+### 🎨 **Beautiful CLI Experience**
+- Pirate-themed interface inspired by One Piece
+- Colorful, intuitive prompts
+- Markdown rendering in terminal
+- Conversation history tracking
+
+---
 
 ## 📁 Project Structure
 
 ```
-24_CLI/
-├── client/          # Next.js frontend for OAuth device flow
+AI-Powered-CLI/
+├── 📁 client/                        # Next.js Frontend
 │   ├── app/
-│   │   ├── (auth)/sign-in/   # Sign-in page
-│   │   ├── approve/          # Device approval page
-│   │   └── device/           # Device code entry page
-│   ├── components/           # UI components (shadcn/ui)
-│   └── lib/                  # Utilities & auth client
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── (auth)/
+│   │   │   ├── layout.tsx
+│   │   │   └── sign-in/
+│   │   │       └── page.tsx
+│   │   ├── approve/
+│   │   │   └── page.tsx
+│   │   └── device/
+│   │       └── page.tsx
+│   ├── components/
+│   │   ├── login-form.tsx
+│   │   └── ui/                       # shadcn/ui components
+│   ├── hooks/
+│   │   └── use-mobile.ts
+│   ├── lib/
+│   │   ├── auth-client.ts
+│   │   └── utils.ts
+│   └── public/
 │
-└── server/          # Backend & CLI
+└── 📁 server/                        # Backend & CLI
     ├── src/
+    │   ├── index.js                  # Express server entry
     │   ├── cli/
-    │   │   ├── main.js       # CLI entry point
+    │   │   ├── main.js               # CLI entry point
+    │   │   ├── ai/
+    │   │   │   └── google.service.js # Google AI service
+    │   │   ├── chat/
+    │   │   │   ├── chat-with-ai.js        # Chat mode
+    │   │   │   ├── chat-with-ai-tool.js   # Tool mode
+    │   │   │   └── chat-with-ai-agent.js  # Agent mode
     │   │   └── commands/
-    │   │       └── auth/     # Authentication commands
-    │   │           ├── login.js
-    │   │           ├── logout.js
-    │   │           └── whoami.js
-    │   └── lib/
-    │       ├── auth.js       # Better Auth configuration
-    │       ├── db.js         # Prisma database client
-    │       └── token.js      # Token management utilities
-    └── prisma/               # Database schema & migrations
+    │   │       ├── auth/
+    │   │       │   ├── login.js
+    │   │       │   ├── logout.js
+    │   │       │   └── whoami.js
+    │   │       └── ai/
+    │   │           └── wakeUp.js
+    │   ├── config/
+    │   │   ├── agent.config.js       # Agent mode config
+    │   │   ├── google.config.js      # Google AI config
+    │   │   └── tool.config.js        # Tool definitions
+    │   ├── lib/
+    │   │   ├── auth.js               # Better Auth setup
+    │   │   ├── db.js                 # Prisma client
+    │   │   └── token.js              # Token management
+    │   └── service/
+    │       └── chat.service.js       # Chat business logic
+    └── prisma/
+        ├── schema.prisma             # Database schema
+        └── migrations/               # Database migrations
 ```
 
-## 🚀 Features
+---
 
-### CLI Commands
+## 🚀 Installation
+
+### Prerequisites
+
+- **Node.js** 18 or higher
+- **PostgreSQL** (or compatible database)
+- **Google AI API Key** (for Gemini)
+- **GitHub OAuth App** (for authentication)
+
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/Abhay-0103/AI-Powered-CLI.git
+cd AI-Powered-CLI
+```
+
+### Step 2: Install Dependencies
+
+```bash
+# Install client dependencies
+cd client
+npm install
+
+# Install server dependencies
+cd ../server
+npm install
+```
+
+### Step 3: Configure Environment Variables
+
+Create a `.env` file in the `server` directory:
+
+```env
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/luffy_cli"
+
+# Authentication
+GITHUB_CLIENT_ID="your-github-client-id"
+GITHUB_CLIENT_SECRET="your-github-client-secret"
+BETTER_AUTH_SECRET="your-secret-key-min-32-chars"
+
+# Google AI
+GOOGLE_GENERATIVE_AI_API_KEY="your-google-ai-api-key"
+
+# Server
+PORT=3001
+CLIENT_URL="http://localhost:3000"
+```
+
+### Step 4: Setup Database
+
+```bash
+cd server
+
+# Generate Prisma client
+npx prisma generate
+
+# Run migrations
+npx prisma migrate dev
+```
+
+### Step 5: Install CLI Globally
+
+```bash
+cd server
+npm link
+```
+
+### Step 6: Start Development Servers
+
+```bash
+# Terminal 1 - Start Client (Frontend)
+cd client
+npm run dev
+
+# Terminal 2 - Start Server (Backend)
+cd server
+npm run dev
+```
+
+---
+
+## 📖 Usage
+
+### Authentication Commands
+
+```bash
+# Login to Luffy CLI (opens browser for OAuth)
+luffy login
+
+# Check current authenticated user
+luffy whoami
+
+# Logout and clear credentials
+luffy logout
+```
+
+### Wake Up AI
+
+```bash
+# Start the AI interface
+luffy wakeup
+```
+
+This opens an interactive menu to choose your AI mode:
+
+```
+╔═══════════════════════════════════════╗
+║                                       ║
+║       ⚓ Straw Hat Pirates ⚓          ║
+║                                       ║
+║       ✨ Ahoy, Captain! ✨            ║
+║                                       ║
+║   Choose your adventure below...      ║
+║                                       ║
+╚═══════════════════════════════════════╝
+
+◆  ⚓ Choose your path, Captain:
+│  💬 Chat Mode
+│  🛠️  Tool Mode
+│  🤖 Agent Mode
+```
+
+---
+
+## 🤖 AI Modes
+
+### 💬 Chat Mode
+
+Have natural conversations with your AI assistant.
+
+```bash
+luffy wakeup
+# Select: 💬 Chat Mode
+```
+
+**Features:**
+- Natural language conversations
+- Markdown-formatted responses
+- Conversation history saved to database
+- Context-aware responses
+
+---
+
+### 🛠️ Tool Mode
+
+Chat with access to powerful tools.
+
+```bash
+luffy wakeup
+# Select: 🛠️ Tool Mode
+```
+
+**Available Tools:**
+
+| Tool | Description |
+|------|-------------|
+| **Google Search** | Search the web for real-time information |
+| **Code Execution** | Run JavaScript/Python code snippets |
+| **URL Context** | Fetch and analyze content from URLs |
+
+**Example:**
+```
+You: Search for the latest Next.js features
+AI: [Uses Google Search tool]
+    Here are the latest Next.js 15 features...
+```
+
+---
+
+### 🤖 Agent Mode
+
+**The most powerful mode!** Generate complete applications from natural language descriptions.
+
+```bash
+luffy wakeup
+# Select: 🤖 Agent Mode
+```
+
+**Capabilities:**
+- ✅ Generate complete applications from descriptions
+- ✅ Create all necessary files and folders
+- ✅ Include setup instructions and commands
+- ✅ Generate production-ready code
+
+**Example Prompts:**
+```
+"Build a todo app with React and Tailwind"
+"Create a REST API with Express and MongoDB"
+"Make a weather app using OpenWeatherMap API"
+"Build a portfolio website with Next.js"
+```
+
+**Output:**
+```
+⚓ Setting sail... Building your application! ⚓
+
+✅ Treasure Found: todo-app-react
+
+⚓ Treasure Map (Project Structure):
+📁 todo-app-react/
+├── index.html
+├── styles.css
+├── app.js
+└── README.md
+
+🌟 VICTORY! Application Created Successfully! 🌟
+
+📁 Treasure Location: C:\Users\...\todo-app-react
+
+⚓ Next Steps to Set Sail:
+  cd todo-app-react
+  open index.html
+```
+
+---
+
+## 🔐 Authentication Flow
+
+The CLI uses OAuth 2.0 Device Authorization Grant:
+
+```
+┌─────────────┐          ┌─────────────┐          ┌─────────────┐
+│     CLI     │          │   Server    │          │   Browser   │
+└──────┬──────┘          └──────┬──────┘          └──────┬──────┘
+       │                        │                        │
+       │  1. Request Code       │                        │
+       │───────────────────────>│                        │
+       │                        │                        │
+       │  2. Return Code + URL  │                        │
+       │<───────────────────────│                        │
+       │                        │                        │
+       │  3. Open Browser ──────────────────────────────>│
+       │                        │                        │
+       │                        │   4. User Enters Code  │
+       │                        │<───────────────────────│
+       │                        │                        │
+       │                        │   5. User Approves     │
+       │                        │<───────────────────────│
+       │                        │                        │
+       │  6. Poll for Token     │                        │
+       │───────────────────────>│                        │
+       │                        │                        │
+       │  7. Return Token       │                        │
+       │<───────────────────────│                        │
+       │                        │                        │
+       │  8. Store Locally      │                        │
+       └────────────────────────┘                        │
+```
+
+---
+
+## 🛠️ Tech Stack
+
+### Client (Frontend)
+
+| Technology | Purpose |
+|------------|---------|
+| **Next.js 16** | React framework with App Router |
+| **TypeScript** | Type safety |
+| **Tailwind CSS** | Utility-first styling |
+| **shadcn/ui** | Beautiful UI components |
+| **Better Auth** | Authentication client |
+
+### Server (Backend & CLI)
+
+| Technology | Purpose |
+|------------|---------|
+| **Node.js** | JavaScript runtime |
+| **Express.js** | Web server framework |
+| **Better Auth** | Authentication server |
+| **Prisma** | Database ORM |
+| **Google Gemini AI** | AI language model |
+| **Commander.js** | CLI framework |
+| **@clack/prompts** | Beautiful CLI prompts |
+| **Chalk** | Terminal styling |
+| **Boxen** | Terminal boxes |
+| **Figlet** | ASCII art text |
+| **Marked** | Markdown parsing |
+
+---
+
+## 📝 CLI Commands Reference
 
 | Command | Description |
 |---------|-------------|
 | `luffy login` | Authenticate using OAuth Device Flow |
 | `luffy logout` | Log out and clear stored credentials |
 | `luffy whoami` | Display current authenticated user |
+| `luffy wakeup` | Start AI interface with mode selection |
+| `luffy --help` | Show help information |
+| `luffy --version` | Show version number |
 
-### OAuth Device Flow
+---
 
-The CLI uses the OAuth 2.0 Device Authorization Grant flow:
+## 🔧 Configuration
 
-1. Run `luffy login`
-2. A unique device code is generated
-3. Browser opens automatically to the authorization page
-4. Enter the code and approve the device
-5. CLI receives the access token and stores it securely
+### Google AI API Key
 
-## 🛠️ Tech Stack
-
-### Client (Frontend)
-- **Next.js 16** - React framework
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **shadcn/ui** - UI components
-- **Better Auth Client** - Authentication
-
-### Server (Backend & CLI)
-- **Node.js** - Runtime
-- **Better Auth** - Authentication server
-- **Prisma** - Database ORM
-- **Commander.js** - CLI framework
-- **@clack/prompts** - Beautiful CLI prompts
-- **Chalk** - Terminal styling
-
-## 📦 Installation
-
-### Prerequisites
-- Node.js 18+
-- PostgreSQL (or your preferred database)
-
-### Setup
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/Abhay-0103/AI-Powered-CLI.git
-   cd AI-Powered-CLI
-   ```
-
-2. **Install dependencies**
-   ```bash
-   # Client
-   cd client
-   npm install
-
-   # Server
-   cd ../server
-   npm install
-   ```
-
-3. **Configure environment variables**
-   
-   Create `.env` file in the server directory:
+1. Go to [Google AI Studio](https://aistudio.google.com/)
+2. Create a new API key
+3. Add to your `.env` file:
    ```env
-   DATABASE_URL="your-database-url"
-   GITHUB_CLIENT_ID="your-github-client-id"
-   GITHUB_CLIENT_SECRET="your-github-client-secret"
-   BETTER_AUTH_SECRET="your-secret-key"
+   GOOGLE_GENERATIVE_AI_API_KEY="your-api-key"
    ```
 
-4. **Run database migrations**
-   ```bash
-   cd server
-   npx prisma migrate dev
-   ```
+### GitHub OAuth App
 
-5. **Start the development servers**
-   ```bash
-   # Terminal 1 - Client
-   cd client
-   npm run dev
+1. Go to [GitHub Developer Settings](https://github.com/settings/developers)
+2. Create a new OAuth App
+3. Set callback URL to `http://localhost:3000/api/auth/callback/github`
+4. Add credentials to your `.env` file
 
-   # Terminal 2 - Server
-   cd server
-   npm run dev
-   ```
-
-## 🔐 Authentication Flow
-
-```
-┌─────────┐                 ┌─────────┐                 ┌─────────┐
-│   CLI   │                 │ Server  │                 │ Client  │
-└────┬────┘                 └────┬────┘                 └────┬────┘
-     │                           │                           │
-     │ 1. Request device code    │                           │
-     │──────────────────────────>│                           │
-     │                           │                           │
-     │ 2. Return code + URL      │                           │
-     │<──────────────────────────│                           │
-     │                           │                           │
-     │ 3. Open browser           │                           │
-     │───────────────────────────────────────────────────────>
-     │                           │                           │
-     │                           │    4. User enters code    │
-     │                           │<──────────────────────────│
-     │                           │                           │
-     │                           │    5. User approves       │
-     │                           │<──────────────────────────│
-     │                           │                           │
-     │ 6. Poll for token         │                           │
-     │──────────────────────────>│                           │
-     │                           │                           │
-     │ 7. Return access token    │                           │
-     │<──────────────────────────│                           │
-     │                           │                           │
-     │ 8. Store token locally    │                           │
-     └───────────────────────────┘                           │
-```
-
+---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Here's how you can help:
+
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Development Setup
+
+```bash
+# Clone your fork
+git clone https://github.com/YOUR_USERNAME/AI-Powered-CLI.git
+
+# Install dependencies
+cd AI-Powered-CLI/server
+npm install
+
+# Start development
+npm run dev
+```
+
+---
+
+## 📄 License
+
+This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- Inspired by **One Piece** and the spirit of adventure
+- Built with [Google Gemini AI](https://ai.google.dev/)
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Authentication by [Better Auth](https://www.better-auth.com/)
 
 ---
 
 <p align="center">
+  <strong>⚓ "I'm gonna be the King of the Code!" - Luffy CLI ⚓</strong>
+</p>
+
+<p align="center">
   Made with ❤️ by <a href="https://github.com/Abhay-0103">Abhay Singh</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Abhay-0103/AI-Powered-CLI/issues">Report Bug</a> •
+  <a href="https://github.com/Abhay-0103/AI-Powered-CLI/issues">Request Feature</a>
 </p>
