@@ -6,44 +6,44 @@
   <img src="https://img.shields.io/badge/Google_AI-Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google AI">
 </p>
 
-<h1 align="center">⚓ Luffy CLI</h1>
+<h1 align="center">Luffy CLI</h1>
 
 <p align="center">
   <strong>An AI-Powered Command-Line Interface Inspired by One Piece</strong>
 </p>
 
 <p align="center">
-  Set sail, automate tasks, and conquer the Grand Line of code with your AI nakama!
+  Automate tasks and ship faster with an AI-powered CLI companion.
 </p>
 
 <p align="center">
-  <a href="#-features">Features</a> •
-  <a href="#-installation">Installation</a> •
-  <a href="#-usage">Usage</a> •
-  <a href="#-ai-modes">AI Modes</a> •
-  <a href="#-tech-stack">Tech Stack</a> •
-  <a href="#-contributing">Contributing</a>
+  <a href="#features">Features</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#usage">Usage</a> •
+  <a href="#ai-modes">AI Modes</a> •
+  <a href="#tech-stack">Tech Stack</a> •
+  <a href="#contributing">Contributing</a>
 </p>
 
 ---
 
-## ✨ Features
+## Features
 
-### 🔐 **Secure Authentication**
+### Secure Authentication
 - OAuth 2.0 Device Flow for secure CLI authentication
 - GitHub OAuth integration
 - Persistent session management
 - Secure token storage
 
-### 🤖 **AI-Powered Modes**
+### AI-Powered Modes
 
 | Mode | Description |
 |------|-------------|
-| **💬 Chat Mode** | Have natural conversations with your AI nakama |
-| **🛠️ Tool Mode** | Use powerful tools like Google Search, Code Execution, URL fetching |
-| **🤖 Agent Mode** | Autonomous application generator - build entire projects from descriptions! |
+| Chat Mode | Have natural conversations with your AI assistant |
+| Tool Mode | Use tools like Google Search, code execution, and URL fetching |
+| Agent Mode | Generate complete projects from plain-language descriptions |
 
-### 🎨 **Beautiful CLI Experience**
+### CLI Experience
 - Pirate-themed interface inspired by One Piece
 - Colorful, intuitive prompts
 - Markdown rendering in terminal
@@ -51,11 +51,11 @@
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 AI-Powered-CLI/
-├── 📁 client/                        # Next.js Frontend
+├── client/                           # Next.js frontend
 │   ├── app/
 │   │   ├── globals.css
 │   │   ├── layout.tsx
@@ -78,7 +78,7 @@ AI-Powered-CLI/
 │   │   └── utils.ts
 │   └── public/
 │
-└── 📁 server/                        # Backend & CLI
+└── server/                           # Backend and CLI
     ├── src/
     │   ├── index.js                  # Express server entry
     │   ├── cli/
@@ -113,7 +113,7 @@ AI-Powered-CLI/
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
 
@@ -162,7 +162,7 @@ PORT=3001
 CLIENT_URL="http://localhost:3000"
 ```
 
-### Step 4: Setup Database
+### Step 4: Set Up Database
 
 ```bash
 cd server
@@ -195,7 +195,7 @@ npm run dev
 
 ---
 
-## 📖 Usage
+## Usage
 
 ### Authentication Commands
 
@@ -210,43 +210,43 @@ luffy whoami
 luffy logout
 ```
 
-### Wake Up AI
+### Start the AI Interface
 
 ```bash
 # Start the AI interface
 luffy wakeup
 ```
 
-This opens an interactive menu to choose your AI mode:
+This opens an interactive menu where you can choose a mode:
 
 ```
 ╔═══════════════════════════════════════╗
 ║                                       ║
-║       ⚓ Straw Hat Pirates ⚓          ║
+║          Straw Hat Pirates            ║
 ║                                       ║
-║       ✨ Ahoy, Captain! ✨            ║
+║            Ahoy, Captain              ║
 ║                                       ║
 ║   Choose your adventure below...      ║
 ║                                       ║
 ╚═══════════════════════════════════════╝
 
-◆  ⚓ Choose your path, Captain:
-│  💬 Chat Mode
-│  🛠️  Tool Mode
-│  🤖 Agent Mode
+Choose your path:
+- Chat Mode
+- Tool Mode
+- Agent Mode
 ```
 
 ---
 
-## 🤖 AI Modes
+## AI Modes
 
-### 💬 Chat Mode
+### Chat Mode
 
 Have natural conversations with your AI assistant.
 
 ```bash
 luffy wakeup
-# Select: 💬 Chat Mode
+# Select: Chat Mode
 ```
 
 **Features:**
@@ -257,13 +257,13 @@ luffy wakeup
 
 ---
 
-### 🛠️ Tool Mode
+### Tool Mode
 
 Chat with access to powerful tools.
 
 ```bash
 luffy wakeup
-# Select: 🛠️ Tool Mode
+# Select: Tool Mode
 ```
 
 **Available Tools:**
@@ -283,20 +283,20 @@ AI: [Uses Google Search tool]
 
 ---
 
-### 🤖 Agent Mode
+### Agent Mode
 
-**The most powerful mode!** Generate complete applications from natural language descriptions.
+Generate complete applications from natural language descriptions.
 
 ```bash
 luffy wakeup
-# Select: 🤖 Agent Mode
+# Select: Agent Mode
 ```
 
 **Capabilities:**
-- ✅ Generate complete applications from descriptions
-- ✅ Create all necessary files and folders
-- ✅ Include setup instructions and commands
-- ✅ Generate production-ready code
+- Generate complete applications from descriptions
+- Create all necessary files and folders
+- Include setup instructions and commands
+- Generate production-ready code
 
 **Example Prompts:**
 ```
@@ -308,29 +308,29 @@ luffy wakeup
 
 **Output:**
 ```
-⚓ Setting sail... Building your application! ⚓
+Building your application...
 
-✅ Treasure Found: todo-app-react
+Project created: todo-app-react
 
-⚓ Treasure Map (Project Structure):
-📁 todo-app-react/
+Project structure:
+todo-app-react/
 ├── index.html
 ├── styles.css
 ├── app.js
 └── README.md
 
-🌟 VICTORY! Application Created Successfully! 🌟
+Application created successfully.
 
-📁 Treasure Location: C:\Users\...\todo-app-react
+Location: C:\Users\...\todo-app-react
 
-⚓ Next Steps to Set Sail:
+Next steps:
   cd todo-app-react
   open index.html
 ```
 
 ---
 
-## 🔐 Authentication Flow
+## Authentication Flow
 
 The CLI uses OAuth 2.0 Device Authorization Grant:
 
@@ -365,7 +365,7 @@ The CLI uses OAuth 2.0 Device Authorization Grant:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Client (Frontend)
 
@@ -395,7 +395,7 @@ The CLI uses OAuth 2.0 Device Authorization Grant:
 
 ---
 
-## 📝 CLI Commands Reference
+## CLI Commands Reference
 
 | Command | Description |
 |---------|-------------|
@@ -408,7 +408,7 @@ The CLI uses OAuth 2.0 Device Authorization Grant:
 
 ---
 
-## 🔧 Configuration
+## Configuration
 
 ### Google AI API Key
 
@@ -428,7 +428,7 @@ The CLI uses OAuth 2.0 Device Authorization Grant:
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Here's how you can help:
 
@@ -454,13 +454,13 @@ npm run dev
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Inspired by **One Piece** and the spirit of adventure
 - Built with [Google Gemini AI](https://ai.google.dev/)
@@ -470,11 +470,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <p align="center">
-  <strong>⚓ "I'm gonna be the King of the Code!" - Luffy CLI ⚓</strong>
+  <strong>"I'm gonna be the King of the Code!" - Luffy CLI</strong>
 </p>
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/Abhay-0103">Abhay Singh</a>
+  Made by <a href="https://github.com/Abhay-0103">Abhay Singh</a>
 </p>
 
 <p align="center">
